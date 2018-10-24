@@ -221,6 +221,7 @@ return [
     |
     */
 
+    'date_format_show' => 'Y/m/d',
     'date_format_db' => 'Y-m-d',
 
     /*

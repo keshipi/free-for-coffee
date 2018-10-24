@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ScheduleDate;
+use App\ScheduleDateSlot;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -18,14 +19,16 @@ class ScheduleDateController extends Controller
         $id = 1;
 
         // 明日の自分の予定を取得
-        $tomorrow = Carbon::tomorrow()->format(config('app.date_format_db'));
-        $schedule = ScheduleDate::where('user_id', $id)->where('date', $tomorrow)->first();
+        $tomorrow = Carbon::tomorrow();
+        $schedule = ScheduleDate::where('user_id', $id)
+            ->where('date', $tomorrow->format(config('app.date_format_db')))
+            ->first();
         $mySlots = isset($schedule->scheduleDateSlots) ? $schedule->scheduleDateSlots->pluck('slot') : collect();
         
         // 明日のタイムスロットを作成
         $slots = [];
-        $start = new Carbon($tomorrow . ' ' . config('app.operation_start'));
-        $end = new Carbon($tomorrow . ' ' . config('app.operation_end'));
+        $start = new Carbon($tomorrow->format(config('app.date_format_db')) . ' ' . config('app.operation_start'));
+        $end = new Carbon($tomorrow->format(config('app.date_format_db')) . ' ' . config('app.operation_end'));
         while ($start->lt($end)) {
             $slots[] = $start->format('H:i');
             $start->addMinutes(config('app.slot_length'));
@@ -55,7 +58,39 @@ class ScheduleDateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $id = 1;
+
+        $tomorrow = $request->input('tomorrow');
+        $scheduleDate = ScheduleDate::where('user_id', $id)
+            ->where('date', $tomorrow)
+            ->first();
+
+        \DB::beginTransaction();
+        try {
+            if (!$scheduleDate) {
+                $scheduleDate = new ScheduleDate();
+                $scheduleDate->user_id = $id;
+                $scheduleDate->date = $tomorrow;
+                $scheduleDate->save();
+            } else {
+                $scheduleDate->touch();
+                ScheduleDateSlot::where('schedule_date_id', $scheduleDate->id)->delete();
+            }
+
+            if ($request->input('slots')) {
+                $slots = [];
+                foreach ($request->input('slots') as $slot) {
+                    $slots[] = ['slot' => $slot];
+                }
+                $scheduleDate->scheduleDateSlots()->createMany($slots);
+            }
+        } catch (\Exception $e) {
+            \DB::rollBack();
+            abort(500);
+        }
+        \DB::commit();
+
+        return redirect()->route('date.index');
     }
 
     /**
