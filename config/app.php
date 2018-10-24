@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'Free for Coffee'),
 
     /*
     |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Tokyo',
 
     /*
     |--------------------------------------------------------------------------
@@ -78,7 +78,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ja',
 
     /*
     |--------------------------------------------------------------------------
@@ -150,6 +150,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -208,7 +209,29 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Date Format
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+
+    'date_format_db' => 'Y-m-d',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Slot Length
+    |--------------------------------------------------------------------------
+    |
+    |
+    */
+    'operation_start' => '09:00',
+    'operation_end' => '21:00',
+    'slot_length' => 60,
 
 ];
