@@ -13,9 +13,9 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\ScheduleDate::class, function (Faker $faker) {
+$factory->define(App\Slot::class, function (Faker $faker) {
+    $slots = array('10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00');
     return [
-        'user_id' => $faker->name,
-        'date' => date('Y-m-d', strtotime('+1 day')),
+        'slot' => $faker->randomElement($slots),
     ];
 });

@@ -2,14 +2,15 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class ScheduleDate extends Model
+class Schedule extends Model
 {
     protected $fillable = ['user_id', 'date'];
 
-    public function scheduleDateSlots()
+    public function slots()
     {
-        return $this->hasMany('App\ScheduleDateSlot');
+        return $this->hasMany('App\Slot');
     }
 }

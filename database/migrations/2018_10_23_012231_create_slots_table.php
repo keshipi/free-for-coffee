@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateScheduleDateSlotsTable extends Migration
+class CreateSlotsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateScheduleDateSlotsTable extends Migration
      */
     public function up()
     {
-        Schema::create('schedule_date_slots', function (Blueprint $table) {
-            $table->unsignedInteger('schedule_date_id');
+        Schema::create('slots', function (Blueprint $table) {
+            $table->unsignedInteger('schedule_id');
             $table->string('slot', 5);
         });
     }
@@ -26,6 +26,6 @@ class CreateScheduleDateSlotsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule_date_slots');
+        Schema::dropIfExists('slots');
     }
 }

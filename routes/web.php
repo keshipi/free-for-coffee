@@ -10,11 +10,6 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::resources([
-    'schedule/date' => 'ScheduleDateController',
-]);
+Route::get('/', 'ScheduleController@index');
+Route::resource('schedule', 'ScheduleController')->only(['index', 'store']);
+Route::resource('partner', 'partnerController')->only(['index', 'show']);

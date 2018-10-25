@@ -11,14 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
-        $scheduleDates = factory(App\ScheduleDate::class, 5)->make();
-        foreach ($scheduleDates as $i => $scheduleDate) {
-            $scheduleDate->user_id = $i + 1;
-            $scheduleDate->save();
-            $scheduleDate
-                ->scheduleDateSlots()
-                ->saveMany(factory(App\ScheduleDateSlot::class, 3)->make(['schedule_date_id' => $scheduleDate->id]));
-        }
+        factory(App\User::class, 5)->create()->each(function ($user) {
+            $schedule = factory(App\Schedule::class)->make(['user_id' => $user->id]);
+            $schedule->save();
+            $schedule
+                ->slots()
+                ->saveMany(factory(App\Slot::class, 3)->make(['schedule_id' => $schedule->id]));
+        });
     }
 }

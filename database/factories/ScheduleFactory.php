@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*
@@ -13,9 +14,8 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(App\ScheduleDateSlot::class, function (Faker $faker) {
-    $slots = array('10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00');
+$factory->define(App\Schedule::class, function (Faker $faker) {
     return [
-        'slot' => $faker->randomElement($slots),
+        'date' => Carbon::tomorrow()->format(config('app.date_format_db')),
     ];
 });
