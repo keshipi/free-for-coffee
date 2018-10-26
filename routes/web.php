@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'ScheduleController@index');
-Route::resource('schedule', 'ScheduleController')->only(['index', 'store']);
-Route::resource('partner', 'partnerController')->only(['index', 'show']);
+Auth::routes();
+Route::get('/', 'ScheduleController@index')->middleware('auth');
+Route::resource('schedule', 'ScheduleController')->only(['index', 'store'])->middleware('auth');
+Route::resource('partner', 'partnerController')->only(['index', 'show'])->middleware('auth');

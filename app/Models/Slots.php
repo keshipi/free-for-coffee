@@ -23,6 +23,9 @@ class Slots
 
     public function getSlots(): array
     {
+        if (!$this->slots) {
+            return [];
+        }
         return $this->slots;
     }
 

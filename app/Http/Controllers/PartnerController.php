@@ -6,6 +6,7 @@ use App\Repositories\ScheduleRepository;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PartnerController extends Controller
 {
@@ -28,7 +29,7 @@ class PartnerController extends Controller
      */
     public function index()
     {
-        $id = 1;
+        $id = Auth::id();
 
         $partners = $this->userRepo->fetchPertners($id);
         return view('partners')
@@ -64,14 +65,13 @@ class PartnerController extends Controller
      */
     public function show($id)
     {
-        $myId = 1;
-
         $user = $this->userRepo->getUser($id);
         if (!$user) {
             abort(500);
         }
 
         // fetch my tomorrow schedule
+        $myId = Auth::id();
         $mySchedule = $this->scheduleRepo->fetchTomorrow($myId);
         // fetch partner's tomorrow schedule
         $schedule = $this->scheduleRepo->fetchTomorrow($user->getId());

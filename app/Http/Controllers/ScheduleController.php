@@ -7,6 +7,7 @@ use App\Repositories\ScheduleRepository;
 use App\Repositories\SlotsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ScheduleController extends Controller
 {
@@ -29,10 +30,10 @@ class ScheduleController extends Controller
      */
     public function index()
     {
-        $id = 6;
+        $id = Auth::id();
 
         $schedule = $this->scheduleRepo->fetchTomorrow($id);
-        
+
         return view('schedule')
             ->with('tomorrow', Carbon::tomorrow())
             ->with('slots', TimeSlot::getTimeSlot())
@@ -57,7 +58,7 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        $id = 6;
+        $id = Auth::id();
 
         $slots = $this->slotsRepo->new($request->input('slots'));
 

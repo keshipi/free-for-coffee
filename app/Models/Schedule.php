@@ -39,9 +39,9 @@ class Schedule
         return $this->userId;
     }
 
-    public function getSlots(): Slots
+    public function getSlots(): array
     {
-        return $this->slots;
+        return $this->slots->getSlots();
     }
 
     public function setId($id)
@@ -74,11 +74,11 @@ class Schedule
     /**
      * get matched slots
      *
-     * @param Slots $slots
+     * @param array $slots
      * @return array
      */
     public function matchSlots($slots): array
     {
-        return array_intersect($this->slots->getSlots(), $slots->getSlots());
+        return array_intersect($this->getSlots(), $slots);
     }
 }

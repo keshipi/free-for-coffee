@@ -1,17 +1,46 @@
 @extends('app')
 
 @section('content')
-<div>
-    <h3>tell us your tomorrow schedule:)</h3>
-    <h4>{{ $tomorrow->format(config('app.date_format_show')) }}</h4>
-    {!! Form::open(['method' => 'post', 'route' => ['schedule.store']]) !!}
-    {{ Form::hidden('tomorrow', $tomorrow->format(config('app.date_format_db'))) }}
-    <ul>
-        @foreach($slots as $slot)
-        <li>{{ Form::checkbox('slots[]', $slot, isset($schedule) ? $schedule->hasSlot($slot) : false) }}{{ $slot }}</li>
-        @endforeach
-    </ul>
-    {{ Form::button('save', ['type' => 'submit']) }}
-    {!! Form::close() !!}
+<div class="container has-text-centered">
+    <div class="columns">
+        <div class="column is-6 is-offset-3">
+            <h3 class="title is-4">tell us your tomorrow schedule</h3>
+            <h4 class="title is-5">{{ $tomorrow->format(config('app.date_format_show')) }}</h4>
+
+            {!! Form::open(['method' => 'post', 'route' => ['schedule.store']]) !!}
+            <div class="tags">
+                <div class="field is-grouped is-grouped-multiline">
+                    @foreach($slots as $i => $slot)
+                    <div class="control">
+                        <div class="tag is-large is-white is-rounded">
+                            <label for="slots_{{ $i }}" class="label">
+                                {{ Form::checkbox('slots[]', $slot, isset($schedule) ? $schedule->hasSlot($slot) :
+                                false,
+                                ['id' => 'slots_' . $i]) }}
+                                {{ $slot }}
+                            </label>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            <div class="field">
+                <div class="control has-text-centered">
+                    <button type="submit" class="button is-link">
+                        {{ __('save') }}
+                    </button>
+                </div>
+            </div>
+            {!! Form::close() !!}
+            <br>
+
+            @if (isset($schedule) && count($schedule->getSlots()) !== 0)
+            <a class="button is-primary is-fullwidth" href="{{ route('partner.index') }}">
+                {{ __('have coffee with someone?') }}
+            </a>
+            @endif
+
+        </div>
+    </div>
 </div>
 @endsection
