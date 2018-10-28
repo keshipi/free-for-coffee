@@ -13,4 +13,4 @@
 Auth::routes();
 Route::get('/', 'ScheduleController@index')->middleware('auth');
 Route::resource('schedule', 'ScheduleController')->only(['index', 'store'])->middleware('auth');
-Route::resource('partner', 'partnerController')->only(['index', 'show'])->middleware('auth');
+Route::resource('partner', 'PartnerController')->only(['index', 'show'])->middleware('auth');
