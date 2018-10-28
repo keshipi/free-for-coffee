@@ -11,12 +11,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\User::class, 5)->create()->each(function ($user) {
+        factory(App\User::class, 30)->create()->each(function ($user) {
             $schedule = factory(App\Schedule::class)->make(['user_id' => $user->id]);
             $schedule->save();
             $schedule
                 ->slots()
-                ->saveMany(factory(App\Slot::class, 3)->make(['schedule_id' => $schedule->id]));
+                ->saveMany(factory(App\Slot::class, 4)->make(['schedule_id' => $schedule->id]));
         });
     }
 }
