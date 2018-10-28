@@ -58,6 +58,11 @@ class ScheduleController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate([
+            'slots' => 'sometimes|array',
+            'slots.*' => 'sometimes|date_format:H:i'
+        ]);
+
         $id = Auth::id();
 
         $slots = $this->slotsRepo->new($request->input('slots'));

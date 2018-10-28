@@ -1,9 +1,22 @@
 @extends('app')
 
 @section('content')
+
+
+<div class="alert alert-danger">
+</div>
+
 <div class="container has-text-centered">
     <div class="columns">
         <div class="column is-6 is-offset-3">
+            @if ($errors->any())
+            <div class="message is-danger">
+                <p class="message-body">
+                    wrong value detected... try again
+                </p>
+            </div>
+            @endif
+
             <h3 class="title is-4">tell us your tomorrow schedule</h3>
             <h4 class="title is-5">{{ $tomorrow->format(config('app.date_format_show')) }}</h4>
 
