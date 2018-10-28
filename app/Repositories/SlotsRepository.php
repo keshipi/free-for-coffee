@@ -22,18 +22,18 @@ class SlotsRepository
     /**
      * update(delete/insert)
      *
-     * @param int $schedule_id
+     * @param int $scheduleId
      * @param Slots $slots
      * @return boolean
      */
-    public function update($schedule_id, $slots): bool
+    public function update($scheduleId, $slots): bool
     {
         DB::beginTransaction();
         try {
-            EloquentSlot::where('schedule_id', $schedule_id)->delete();
+            EloquentSlot::where('schedule_id', $scheduleId)->delete();
             foreach ($slots->getSlots() as $slot) {
                 $eloquentSlot = new EloquentSlot();
-                $eloquentSlot->schedule_id = $schedule_id;
+                $eloquentSlot->schedule_id = $scheduleId;
                 $eloquentSlot->slot = $slot;
                 $eloquentSlot->save();
             }

@@ -40,7 +40,7 @@ class ScheduleRepository
             return null;
         }
 
-        $slots = new Slots($schedule->user_id, $schedule->slots->pluck('slot')->toArray());
+        $slots = new Slots($schedule->id, $schedule->slots->pluck('slot')->toArray());
         return new Schedule($schedule->id, $schedule->date, $schedule->user_id, $slots);
     }
 

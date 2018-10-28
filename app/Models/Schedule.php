@@ -61,17 +61,6 @@ class Schedule
     }
 
     /**
-     * check if the date is same as passed arg
-     *
-     * @param string $date
-     * @return boolean
-     */
-    public function isSameDate($date): bool
-    {
-        return $this->date === $date;
-    }
-
-    /**
      * get matched slots
      *
      * @param array $slots
@@ -79,6 +68,6 @@ class Schedule
      */
     public function matchSlots($slots): array
     {
-        return array_intersect($this->getSlots(), $slots);
+        return array_values(array_intersect($this->getSlots(), $slots));
     }
 }
